@@ -365,7 +365,7 @@ const projects: Project[] = [
             and make data-driven decisions to improve retention. Also used the Machine learning algorithm Random Forest to predict
             future churning customers.
           </TypographyP>
-          
+
           <SlideShow
             images={[
               `${BASE_PATH}/customer/1.jpg`,
@@ -384,8 +384,8 @@ const projects: Project[] = [
     title: "My Portfolio",
     src: "/assets/projects-screenshots/portfolio/landing.png",
     screenshots: ["1.png"],
-    live: "http://nareshkhatri.vercel.app",
-    github: "https://github.com/Naresh-Khatri/Portfolio",
+    live: "http://vinayak-port.vercel.app",
+    github: "https://github.com/VinayakS2005/vinayak",
     skills: {
       frontend: [
         PROJECT_SKILLS.ts,
@@ -406,14 +406,14 @@ const projects: Project[] = [
             dopest way possible.
           </TypographyP>
           <ProjectsLinks live={this.live} repo={this.github} />
-          
+
           <SlideShow
             images={[
               `${BASE_PATH}/portfolio/landing.png`,
               `${BASE_PATH}/portfolio/skills.png`,
             ]}
           />
-          
+
 
         </div>
       );
