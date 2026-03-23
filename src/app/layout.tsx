@@ -4,7 +4,6 @@ import "./globals.css";
 import { config } from "@/data/config";
 
 import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
 import Script from "next/script";
 import AppOverlays from "@/components/app-overlays";
 import { Providers } from "@/components/providers";
@@ -70,7 +69,6 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
-          <Footer />
           <AppOverlays />
         </Providers>
       </body>

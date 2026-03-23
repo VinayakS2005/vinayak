@@ -29,7 +29,6 @@ const AnimatedBackground = () => {
   const [activeSection, setActiveSection] = useState<Section>("hero");
 
   // Animation controllers refs
-  const bongoAnimationRef = useRef<{ start: () => void; stop: () => void }>();
   const keycapAnimationsRef = useRef<{ start: () => void; stop: () => void }>();
 
   const [keyboardRevealed, setKeyboardRevealed] = useState(false);
@@ -88,7 +87,6 @@ const AnimatedBackground = () => {
         setSelectedSkill(skill);
         selectedSkillRef.current = skill;
         splineApp.setVariable("heading", skill.label);
-        splineApp.setVariable("desc", skill.shortDescription);
       }
     });
     splineApp.addEventListener("mouseHover", handleMouseHover);
@@ -144,40 +142,8 @@ const AnimatedBackground = () => {
     // Section transitions
     createSectionTimeline("#skills", "skills", "hero");
     createSectionTimeline("#projects", "projects", "skills", "top 70%");
-    createSectionTimeline("#contact", "contact", "projects", "top 30%");
-  };
-
-  const getBongoAnimation = () => {
-    const framesParent = splineApp?.findObjectByName("bongo-cat");
-    const frame1 = splineApp?.findObjectByName("frame-1");
-    const frame2 = splineApp?.findObjectByName("frame-2");
-
-    if (!frame1 || !frame2 || !framesParent) {
-      return { start: () => { }, stop: () => { } };
-    }
-
-    let interval: NodeJS.Timeout;
-    const start = () => {
-      let i = 0;
-      framesParent.visible = true;
-      interval = setInterval(() => {
-        if (i % 2) {
-          frame1.visible = false;
-          frame2.visible = true;
-        } else {
-          frame1.visible = true;
-          frame2.visible = false;
-        }
-        i++;
-      }, 100);
-    };
-    const stop = () => {
-      clearInterval(interval);
-      framesParent.visible = false;
-      frame1.visible = false;
-      frame2.visible = false;
-    };
-    return { start, stop };
+    createSectionTimeline("#certifications", "certifications", "projects", "top 50%");
+    createSectionTimeline("#contact", "contact", "certifications", "top 30%");
   };
 
   const getKeycapsAnimation = () => {
@@ -281,10 +247,17 @@ const AnimatedBackground = () => {
     if (!splineApp) return;
     handleSplineInteractions();
     setupScrollAnimations();
-    bongoAnimationRef.current = getBongoAnimation();
     keycapAnimationsRef.current = getKeycapsAnimation();
+
+    // Explicitly hide bongo cat
+    const bongoCat = splineApp.findObjectByName("bongo-cat");
+    const frame1 = splineApp.findObjectByName("frame-1");
+    const frame2 = splineApp.findObjectByName("frame-2");
+    if (bongoCat) bongoCat.visible = false;
+    if (frame1) frame1.visible = false;
+    if (frame2) frame2.visible = false;
+
     return () => {
-      bongoAnimationRef.current?.stop()
       keycapAnimationsRef.current?.stop()
     }
 
@@ -329,7 +302,6 @@ const AnimatedBackground = () => {
     if (!selectedSkill || !splineApp) return;
     // console.log(selectedSkill)
     splineApp.setVariable("heading", selectedSkill.label);
-    splineApp.setVariable("desc", selectedSkill.shortDescription);
   }, [selectedSkill]);
 
   // Handle rotation and teardown animations based on active section
@@ -385,15 +357,6 @@ const AnimatedBackground = () => {
       } else {
         rotateKeyboard?.pause();
         teardownKeyboard?.pause();
-      }
-
-      // Handle Bongo Cat
-      if (activeSection === "projects") {
-        await sleep(300);
-        bongoAnimationRef.current?.start();
-      } else {
-        await sleep(200);
-        bongoAnimationRef.current?.stop();
       }
 
       // Handle Contact Section Animations

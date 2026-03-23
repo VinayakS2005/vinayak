@@ -3,7 +3,7 @@
 import { useInView } from "framer-motion";
 import React, { useRef } from "react";
 import { Button } from "../ui/button";
-import { SiGithub, SiInstagram, SiLinkedin, SiX } from "react-icons/si";
+import { SiGithub, SiLeetcode, SiLinkedin } from "react-icons/si";
 import { config } from "@/data/config";
 import Link from "next/link";
 
@@ -19,14 +19,9 @@ const BUTTONS = [
     icon: <SiLinkedin size={"24"} color={"#fff"} />,
   },
   {
-    name: "Twitter",
-    href: config.social.twitter,
-    icon: <SiX size={"24"} color={"#fff"} />,
-  },
-  {
-    name: "Instagram",
-    href: config.social.instagram,
-    icon: <SiInstagram size={"24"} color={"#fff"} />,
+    name: "LeetCode",
+    href: config.social.leetcode,
+    icon: <SiLeetcode size={"24"} color={"#fff"} />,
   },
 ];
 
@@ -36,11 +31,14 @@ const SocialMediaButtons = () => {
   return (
     <div ref={ref} className="z-10">
       {show &&
-        BUTTONS.map((button) => (
-          <Link href={button.href} key={button.name} target="_blank">
-            <Button variant={"ghost"}>{button.icon}</Button>
-          </Link>
-        ))}
+        BUTTONS.map((button) => {
+          if (!button.href) return null;
+          return (
+            <Link href={button.href} key={button.name} target="_blank">
+              <Button variant={"ghost"}>{button.icon}</Button>
+            </Link>
+          );
+        })}
     </div>
   );
 };

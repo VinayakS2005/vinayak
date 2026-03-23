@@ -25,7 +25,7 @@ const ContactSection = () => {
           <CardHeader>
             <CardTitle className="text-4xl">Contact Form</CardTitle>
             <CardDescription>
-              Please contact me directly at{" "}
+              Please contact me directly at +91 82953 39353 or {" "}
               <a
                 target="_blank"
                 href={`mailto:${config.email}`}
