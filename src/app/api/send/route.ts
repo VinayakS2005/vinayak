@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     });
 
     if (resendError) {
-      return Response.json({ resendError }, { status: 500 });
+      return Response.json({ error: resendError?.message || "Failed to send email" }, { status: 500 });
     }
 
     return Response.json(resendData);

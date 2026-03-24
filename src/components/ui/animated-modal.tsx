@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import { ScrollArea } from "./scroll-area";
+import { useLenis } from "@/lib/lenis";
 
 interface ModalContextType {
   open: boolean;
@@ -69,6 +70,7 @@ export const ModalBody = ({
   className?: string;
 }) => {
   const { open } = useModal();
+  const lenis = useLenis();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -80,10 +82,12 @@ export const ModalBody = ({
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
+      lenis?.stop();
     } else {
       document.body.style.overflow = "auto";
+      lenis?.start();
     }
-  }, [open]);
+  }, [open, lenis]);
 
   const modalRef = useRef(null);
   const { setOpen } = useModal();

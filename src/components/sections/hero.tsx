@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import CyclingText from "../cycling-text";
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
@@ -68,14 +69,15 @@ const HeroSection = () => {
                 </BlurIn>
                 {/* <div className="md:block hidden bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 w-screen h-px animate-fade-right animate-glow" /> */}
                 <BlurIn delay={1.2}>
-                  <p
+                  <CyclingText
+                    roles={["Software Engineer", "Data Analyst and Machine Learning Enthusiast", "Game Developer"]}
+                    interval={3000}
+                    startDelay={1200}
                     className={cn(
                       "md:self-start md:mt-4 font-thin text-md text-slate-500 dark:text-zinc-400",
                       "cursor-default font-display sm:text-xl md:text-xl whitespace-nowrap bg-clip-text "
                     )}
-                  >
-                    Software Engineer
-                  </p>
+                  />
                 </BlurIn>
               </div>
               <div className="mt-8 flex flex-col gap-3 w-fit">
