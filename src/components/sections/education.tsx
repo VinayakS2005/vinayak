@@ -37,8 +37,8 @@ const educationData = [
     mascot: "📗",
     year: "2023-2027",
     achievements: [
-      "CGPA: 8.41",
-      "Consistently solved 250+ problems on leetcode",
+      "CGPA: 8.51",
+      "Consistently solved 300+ problems on leetcode",
     ],
     skills: ["Programming", "Data Structures", "Algorithms"],
     description:

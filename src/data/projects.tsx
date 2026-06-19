@@ -5,7 +5,7 @@ import { TypographyH3, TypographyP } from "@/components/ui/typography";
 import { ArrowUpRight, ExternalLink, Link2, MoveUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { RiNextjsFill, RiNodejsFill, RiReactjsFill } from "react-icons/ri";
 import {
   SiChakraui,
@@ -58,6 +58,48 @@ const ProjectsLinks = ({ live, repo }: { live: string; repo?: string }) => {
             <ArrowUpRight className="ml-3 w-5 h-5" />
           </Button>
         </Link>
+      )}
+    </div>
+  );
+};
+
+const PlayableVideo = ({ src, poster }: { src: string; poster: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const handlePause = () => {
+    setIsPlaying(false);
+  };
+
+  return (
+    <div className="relative my-6 rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-xl bg-black aspect-video group">
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        className="w-full h-full object-contain mx-auto"
+        controls={isPlaying}
+        onPause={handlePause}
+        onEnded={handlePause}
+      />
+      {!isPlaying && (
+        <button
+          onClick={handlePlay}
+          className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/50 transition-colors pointer-events-auto"
+        >
+          <div className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-8 h-8 ml-1">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </button>
       )}
     </div>
   );
@@ -257,8 +299,97 @@ export type Project = {
   content: React.ReactNode | any;
   github?: string;
   live: string;
+  video?: string;
+  hidden?: boolean;
 };
 const projects: Project[] = [
+  {
+    id: "unseenfloor",
+    category: "Unity 3D Game",
+    title: "The Unseen Floor",
+    src: "/assets/projects-screenshots/unity-game/landing.png",
+    screenshots: ["1.png", "2.png", "3.png"],
+    skills: {
+      frontend: [],
+      backend: [],
+    },
+    live: "",
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-center text-xl mb-4">
+            The Unseen Floor
+          </TypographyP>
+          <TypographyP className="font-mono mb-4 text-sm md:text-base">
+            Developed a 3D exploration-based game inspired by the Backrooms in Unity.
+          </TypographyP>
+          <ul className="list-disc pl-5 font-mono text-xs md:text-sm space-y-2 mb-6 text-neutral-600 dark:text-neutral-400">
+            <li>Implemented player movement, collision detection, notes system, keypad puzzle, door unlock mechanism, scene transition, and object interaction systems using C# scripting.</li>
+            <li>Optimized game performance through occlusion culling and script optimization techniques.</li>
+            <li>Created Enemy AI with navmesh pathfinding which chases the player till a destination point.</li>
+          </ul>
+
+          <PlayableVideo
+            src="/assets/projects-screenshots/unity-game/gameplay.mp4"
+            poster="/assets/projects-screenshots/unity-game/landing.png"
+          />
+
+          <TypographyH3 className="my-4 mt-8">Screenshots </TypographyH3>
+          <SlideShow
+            images={[
+              `${BASE_PATH}/unity-game/1.png`,
+              `${BASE_PATH}/unity-game/2.png`,
+              `${BASE_PATH}/unity-game/3.png`,
+            ]}
+          />
+        </div>
+      );
+    },
+  },
+  {
+    id: "pixelcraft",
+    category: "Creative Web Application",
+    title: "PixelCraft",
+    src: "/assets/projects-screenshots/pixelcraft/landing.png",
+    screenshots: ["1.png", "2.png", "3.png"],
+    video: "/assets/projects-screenshots/pixelcraft/demo.mp4",
+    hidden: true, // Example of using the visibility control
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.react,
+        PROJECT_SKILLS.tailwind,
+        PROJECT_SKILLS.ts,
+      ],
+      backend: [
+        PROJECT_SKILLS.node,
+        PROJECT_SKILLS.api,
+      ],
+    },
+    live: "https://pixelcraft-editor.vercel.app/",
+    github: "https://github.com/VinayakS2005/PixelCraft",
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-2xl text-center mb-4">
+            PixelCraft - Advanced Web Image Editor
+          </TypographyP>
+          <TypographyP className="font-mono text-center mb-6">
+            A premium, modern web-based image editor featuring rich image manipulation capabilities.
+          </TypographyP>
+          <ProjectsLinks live={this.live} repo={this.github} />
+          
+          <TypographyH3 className="my-4 mt-8">Project Gallery</TypographyH3>
+          <SlideShow
+            images={[
+              `${BASE_PATH}/pixelcraft/1.png`,
+              `${BASE_PATH}/pixelcraft/2.png`,
+              `${BASE_PATH}/pixelcraft/3.png`,
+            ]}
+          />
+        </div>
+      );
+    },
+  },
   {
     id: "codingducks",
     category: "AI Pet training Chatbot",
